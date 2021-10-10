@@ -1,30 +1,46 @@
 #include <iostream>
-#include <windows.h>
 #include <iomanip>
+#include <cstdlib>
+#include <X11/Xlib.h>
 
 using namespace std;
 
 int main(){
-    string cadena = "si";
-    do{
-        double pixeles = 0;
-        //Haciendo las operaciones
-        cout<<"Introduce el numero de pixeles: ";
-        cin>>pixeles;
-        double pantalla = GetSystemMetrics(SM_CXSCREEN);
-        cout<<fixed<<setprecision(2)<<pixeles * 100 / pantalla<<endl;
-        //Preguntando si quiere continuar el bucle
-        cout<<"Quieres continuar? ";
-        cin>>cadena;
-        //Poniendo las letras en minusculas
-        for (int i = 0; i < cadena.length(); i++) {
-            cadena[i] = tolower(cadena[i]);
-        };
-        //Compruebo si es si y si es borro la terminal
-        if(cadena == "si"){
-            system("cls");
-        };
-    }while(cadena == "si");
+    // Port GNU_LINUX block
+    #if defined(__linux__)
+        Display* display = XOpenDisplay(NULL);
+        Screen*  screen = DefaultScreenOfDisplay(display);
+        int heightScreen = screen->height;
+        int widthScreen  = screen->width;
+    #endif
+
+    // Original windows block
+    #if defined(_WIN32)
+        #include <windows.h>
+        double widthScreen = GetSystemMetrics(SM_CXSCREEN);
+    #endif
+
+    int response;
+    int pixelCount;
+
+    do {
+        cout << "Introduce el numero de pixeles: ";
+        cin >> pixelCount;
+        cout << fixed << setprecision(2) << "El resultado es: " << pixelCount * 100 / widthScreen << endl;
+
+        cout << "¿Quieres continuar?\n\n"
+        "❯ 0 para detener\n"
+        "❯ 1 para continuar\n" << endl;
+        cin >> response;
+        if(response == 1) {
+            #if defined(__linux__)
+                system("clear");
+            #endif
+            #if defined(_WIN32)
+                system("cls");
+            #endif
+        }
+
+    }while(response == 1);
     system("PAUSE");
-    return 0;
 }

@@ -6,7 +6,7 @@ You can build this binary using CLANG++ or Visual Studio
 # How to build (Linux)
 Use the integrated cpp compiler c++ 
 ```sh
-c++ Pixel.cpp
+c++ Pixel.cpp -lX11
 ./a.out
 ```
 

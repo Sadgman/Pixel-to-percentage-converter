@@ -1,33 +1,47 @@
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
-#include <X11/Xlib.h>
 
-using namespace std;
+// Preprocessor macros list in https://sourceforge.net/p/predef/wiki/OperatingSystems/
+#if defined (__linux__) || (__gnu_linux__)
+    /* 
+    /\ \       __                          
+     \ \ \     /\_\    ___   __  __  __  _  
+      \ \ \  __\/\ \ /' _ `\/\ \/\ \/\ \/'\ 
+       \ \ \L\ \\ \ \/\ \/\ \ \ \_\ \/>  </ 
+        \ \____/ \ \_\ \_\ \_\ \____//\_/\_\
+         \/___/   \/_/\/_/\/_/\/___/ \//\/_/
+   * If the preprocessor match linux's kernel macro device as true, it will include the libraries and declare the variables. */
 
-int main(){
-    // Port GNU_LINUX block
-    #if defined(__linux__)
+    #include <cstdlib>
+    #include <X11/Xlib.h>
+        bool linuxOS = true;
         Display* display = XOpenDisplay(NULL);
         Screen*  screen = DefaultScreenOfDisplay(display);
         int heightScreen = screen->height;
         int widthScreen  = screen->width;
-    #endif
+#elif defined (_WIN16) || (_WIN32) || (_WIN64) || (__WIN32__) || (__TOS_WIN__) || (__WINDOWS__)
+    /*
+    __      __.__            .___                   
+    /  \    /  \__| ____    __| _/______  _  ________
+    \   \/\/   /  |/    \  / __ |/  _ \ \/ \/ /  ___/
+     \        /|  |   |  \/ /_/ (  <_> )     /\___ \ 
+      \__/\  / |__|___|  /\____ |\____/ \/\_//____  >
+           \/          \/      \/                 \/ 
+    * Otherwise if the preprocessor matchs with Microsoft Windows core, include library and declare the variable. */
+    #include <windows.h>
+    bool winDOS = true;
+    double widthScreen = GetSystemMetrics(SM_CXSCREEN);
+#endif
 
-    // Original windows block
-    #if defined(_WIN32)
-        #include <windows.h>
-        double widthScreen = GetSystemMetrics(SM_CXSCREEN);
-    #endif
+using namespace std;
 
+int main(){
     int response;
     int pixelCount;
-
     do {
         cout << "Introduce el numero de pixeles: ";
         cin >> pixelCount;
         cout << fixed << setprecision(2) << "El resultado es: " << pixelCount * 100 / widthScreen << endl;
-
         cout << "¿Quieres continuar?\n\n"
         "❯ 0 para detener\n"
         "❯ 1 para continuar\n" << endl;
@@ -40,7 +54,6 @@ int main(){
                 system("cls");
             #endif
         }
-
     }while(response == 1);
-    system("PAUSE");
+    system("pause");
 }

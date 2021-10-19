@@ -42,7 +42,7 @@ int main(){
         cout << "Introduce el numero de pixeles: ";
         cin >> pixelCount;
         cout << fixed << setprecision(2) << "El resultado es: " << pixelCount * 100 / widthScreen << endl;
-        cout << "¿Quieres continuar?\n\n"
+        cout << "\n¿Quieres continuar?\n\n"
         "❯ 0 para detener\n"
         "❯ 1 para continuar\n" << endl;
         cin >> response;

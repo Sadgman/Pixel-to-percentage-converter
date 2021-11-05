@@ -17,8 +17,8 @@
         bool linuxOS = true;
         Display* display = XOpenDisplay(NULL);
         Screen*  screen = DefaultScreenOfDisplay(display);
-        int heightScreen = screen->height;
-        int widthScreen  = screen->width;
+        double heightScreen = screen->height;
+        double widthScreen  = screen->width;
 #elif defined (_WIN16) || (_WIN32) || (_WIN64) || (__WIN32__) || (__TOS_WIN__) || (__WINDOWS__)
     /*
     __      __.__            .___                   
@@ -37,7 +37,7 @@ using namespace std;
 
 int main(){
     int response;
-    int pixelCount;
+    double pixelCount;
     do {
         cout << "Introduce el numero de pixeles: ";
         cin >> pixelCount;
@@ -47,13 +47,13 @@ int main(){
         "❯ 1 para continuar\n" << endl;
         cin >> response;
         if(response == 1) {
-            #if defined(__linux__)
+            #if defined (__linux__) || (__gnu_linux__)
                 system("clear");
-            #endif
-            #if defined(_WIN32)
+        
+            #elif defined(_WIN32)
                 system("cls");
             #endif
         }
     }while(response == 1);
-    system("pause");
+    return 0;
 }
